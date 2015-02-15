@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Fail fast, including pipelines
+set -eo pipefail
+
+# Set LOGSTASH_TRACE to enable debugging
+[[ $LOGSTASH_TRACE ]] && set -x
+
+SCRIPT_ROOT=$(readlink -f "$(dirname "$0")"/..)
+
+LOGSTASH_SRC_DIR='/app/logstash'
+
+LOGSTASH_CONFIG_DIR="${LOGSTASH_SRC_DIR}/conf.d"
+LOGSTASH_CONFIG_FILE="${LOGSTASH_CONFIG_DIR}/logstash.conf"
+
+LOGSTASH_BINARY="${LOGSTASH_SRC_DIR}/bin/logstash"
+
+function logstash_start_agent() {
+    local config_dir="$LOGSTASH_CONFIG_DIR"
+    local log_file="$LOGSTASH_LOG_FILE"
+
+    exec "$LOGSTASH_BINARY" \
+         agent \
+         --config "$config_dir"
+}
+
+function main() {
+
+    logstash_start_agent
+}
+
+main "$@"
