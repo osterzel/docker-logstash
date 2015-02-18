@@ -1,6 +1,6 @@
 # docker-logstash
 
-This repo container an dockerfile for creating a basic logstash listener.
+This repo contains an dockerfile for creating a basic logstash listener.
 
 It includes a basic config file which reads from stdin and write to stdout
 additionally it can read from the containers logs on a host system if
